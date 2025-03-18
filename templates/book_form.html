@@ -1,0 +1,20 @@
+{% extends 'base1.html' %}
+{% block content %}
+<h1>{% if book %}Edit Book{% else %}Add Book{% endif %}</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{ book[1] if book else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="author">Authors</label>
+        <input type="text" class="form-control" id="authors" name="authors" value="{{ book[2] if book else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="genre">book_url</label>
+        <input type="text" class="form-control" id="book_url" name="book_url" value="{{ book[3] if book else '' }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{{ url_for('books') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

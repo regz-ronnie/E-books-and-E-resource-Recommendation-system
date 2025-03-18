@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}FAQ - MKU E-Book Store{% endblock %}
+
+{% block content %}
+<div class="container faq-section">
+    <div class="faq-header">
+        <h1>Frequently Asked Questions</h1>
+        <p class="lead">Here are the most common questions asked by our users. If you don't find what you're looking for, feel free to contact us.</p>
+    </div>
+
+    <div class="accordion" id="faqAccordion">
+        <!-- FAQ Item 1 -->
+        <div class="card">
+            <div class="card-header faq-card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        What is the MKU E-Book Store?
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#faqAccordion">
+                <div class="card-body faq-card-body">
+                    The MKU E-Book Store is an online platform that offers a variety of e-books and educational resources to students, lecturers, and staff. It provides a catalog of books that can be accessed, downloaded, and read directly from the platform.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="card">
+            <div class="card-header faq-card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        How do I register for an account?
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqAccordion">
+                <div class="card-body faq-card-body">
+                    To register, simply click on the "Register" button on the homepage and fill in your details. You’ll need to provide your name, email, password, and choose your role (student, lecturer, or admin). Once submitted, you’ll receive a verification email to complete the registration process.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="card">
+            <div class="card-header faq-card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Can I download e-books from the platform?
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqAccordion">
+                <div class="card-body faq-card-body">
+                    Yes, you can download e-books from the platform. Once you are logged in, browse the catalog, and for each book, you’ll see a download option available for supported file formats like PDF, EPUB, and MOBI.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div class="card">
+            <div class="card-header faq-card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        How can I track my reading history?
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#faqAccordion">
+                <div class="card-body faq-card-body">
+                    Your reading history can be accessed from your user profile. Simply go to the "Profile" section, and there you will see a list of the books you have recently viewed, downloaded, or marked for future reading.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Item 5 -->
+        <div class="card">
+            <div class="card-header faq-card-header" id="headingFive">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        How do I provide feedback or report an issue?
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#faqAccordion">
+                <div class="card-body faq-card-body">
+                    You can provide feedback or report an issue by visiting the "Contact Us" section in the footer of the website. You can fill out a form to send us your comments or report any technical issues you're experiencing.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

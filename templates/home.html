@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Hero Section -->
+    <div class="text-center hero-section bg-light p-5 rounded shadow">
+        <h1 class="display-4 text-primary">Welcome to the E-Resource and E-Book System</h1>
+        <p class="lead text-secondary">Your one-stop platform for academic resources, e-books, and more!</p>
+    </div>
+
+    <!-- Buttons to Login or Register -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg mx-3 shadow-sm">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-success btn-lg mx-3 shadow-sm">Register Now</a>
+    </div>
+
+  <!-- Statistics Section -->
+<div class="mt-5 text-center">
+    <h3 class="text-secondary">Platform Statistics</h3>
+    <div class="row mt-4 stats-row">
+        <div class="col-md-4">
+            <div class="stat-card shadow-sm p-4 rounded">
+                <h2 class="display-5 text-primary" id="booksCount">{{ books_count }}+</h2>
+                <p>Books Available</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card shadow-sm p-4 rounded">
+                <h2 class="display-5 text-success" id="usersCount">{{ users_count }}+</h2>
+                <p>Registered Users</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card shadow-sm p-4 rounded">
+                <h2 class="display-5 text-info" id="downloadsCount">{{ downloads_count }}+</h2>
+                <p>Books Downloaded</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Book Recommendations Section -->
+    <div class="mt-5">
+        <h3 class="text-secondary">Featured Books for Students</h3>
+        <div id="bookCarousel" class="carousel slide mt-3 shadow-sm" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for book in books %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <img src="{{ book.image_url }}" class="d-block w-100 rounded" alt="{{ book.title }}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ book.title }}</h5>
+                        <p>{{ book.author }}</p>
+                        <a href="{{ url_for('book_details', book_id=book.id) }}" class="btn btn-info">View Details</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#bookCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#bookCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Explore Section -->
+    <div class="mt-5 text-center explore-section bg-light p-5 rounded shadow">
+        <h3>Explore More Resources</h3>
+        <p>Browse books, review ratings, and find the perfect study material for your courses.</p>
+        <a href="{{ url_for('browse_books') }}" class="btn btn-outline-secondary btn-lg">Browse Books</a>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="mt-5">
+        <h3 class="mb-4 text-secondary">What Students are Saying</h3>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Testimonials can be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Call-to-Action Section -->
+    <div class="cta-section bg-primary text-white py-5 text-center mt-5 rounded shadow">
+        <h2>Join Thousands of Students Today!</h2>
+        <p>Access a world of knowledge at your fingertips.</p>
+    </div>
+
+    <!-- Feedback Form -->
+    <div class="mt-5 feedback-section bg-light p-5 rounded shadow">
+        <h3 class="text-secondary">We Value Your Feedback</h3>
+        <form action="{{ url_for('submit_feedback') }}" method="post" class="mt-3">
+            <div class="mb-3">
+                <textarea name="feedback" class="form-control shadow-sm" rows="4" placeholder="Share your thoughts..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary shadow-sm">Submit Feedback</button>
+        </form>
+    </div>
+
+</div>
+
+            <!-- Testimonials Section -->
+            <div class="mt-5">
+                <h3 class="mb-4">What Students are Saying</h3>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    
+                    <!-- Testimonial 1 -->
+                    <div class="col">
+                        <div class="card h-100 text-center">
+                            <img src="{{ url_for('static', filename='images/download4.jpeg') }}" class="card-img-top rounded-circle mx-auto mt-3" alt="John Doe" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">"This platform has made it so much easier to find the resources I need for my courses!"</p>
+                                <h5 class="card-title">- John Doe</h5>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Testimonial 2 -->
+                    <div class="col">
+                        <div class="card h-100 text-center">
+                            <img src="{{ url_for('static', filename='images/download1.jpeg') }}" class="card-img-top rounded-circle mx-auto mt-3" alt="Jane Smith" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">"I love how easy it is to browse and get book recommendations!"</p>
+                                <h5 class="card-title">- Jane Smith</h5>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Testimonial 3 -->
+                    <div class="col">
+                        <div class="card h-100 text-center">
+                            <img src="{{ url_for('static', filename='images/download2.jpeg') }}" class="card-img-top rounded-circle mx-auto mt-3" alt="Alice Brown" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">"The recommendations are very relevant to my studies!"</p>
+                                <h5 class="card-title">- Alice Brown</h5>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Testimonial 4 -->
+                    <div class="col">
+                        <div class="card h-100 text-center">
+                            <img src="{{ url_for('static', filename='images/download3.jpeg') }}" class="card-img-top rounded-circle mx-auto mt-3" alt="Mike Wilson" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">"A great resource for university students!"</p>
+                                <h5 class="card-title">- Mike Wilson</h5>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Testimonial 5 -->
+                    <div class="col">
+                        <div class="card h-100 text-center">
+                            <img src="{{ url_for('static', filename='images/download.jpeg') }}" class="card-img-top rounded-circle mx-auto mt-3" alt="Sarah Lee" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">"The search and filter options are amazing and easy to use!"</p>
+                                <h5 class="card-title">- Sarah Lee</h5>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Testimonial 6 -->
+                    <div class="col">
+                        <div class="card h-100 text-center">
+                            <img src="{{ url_for('static', filename='images/download5.jpeg') }}" class="card-img-top rounded-circle mx-auto mt-3" alt="David Kim" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div class="card-body">
+                                <p class="card-text">"This platform has everything I need for my studies in one place!"</p>
+                                <h5 class="card-title">- David Kim</h5>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+{% endblock %}
+<!-- Include AOS and Custom Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,  // Animation duration in ms
+        once: true,      // Only trigger animation once
+        offset: 100,     // Start animation 100px before element enters viewport
+    });
+</script>
+
+

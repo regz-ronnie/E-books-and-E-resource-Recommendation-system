@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Search Results</h1>
+    <form method="GET" action="/search">
+        <input type="text" name="query" placeholder="Search for books" value="{{ request.args.get('query', '') }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if books %}
+        <div class="book-list">
+            {% for book in books %}
+                <div class="book">
+                    <h2>{{ book.title }}</h2>
+                    <p><strong>Author:</strong> {{ book.author }}</p>
+                    <p><strong>Description:</strong> {{ book.description }}</p>
+                    {% if book.image %}
+                        <img src="{{ book.image }}" alt="Book Thumbnail">
+                    {% endif %}
+                    <p><a href="{{ book.link }}" target="_blank">More Info</a></p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No books found. Try another search.</p>
+    {% endif %}
+</body>
+</html>

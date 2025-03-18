@@ -1,0 +1,31 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<h2>Edit User</h2>
+
+<!-- Form for editing user details -->
+<form action="{{ url_for('edit_user', user_id=user[0]) }}" method="POST">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" class="form-control" id="name" name="name" value="{{ user[1] }}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" class="form-control" id="email" name="email" value="{{ user[2] }}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="role">Role:</label>
+    <select class="form-control" id="role" name="role">
+      <option value="Admin" {% if user[3] == 'Admin' %}selected{% endif %}>Admin</option>
+      <option value="Student" {% if user[3] == 'Student' %}selected{% endif %}>Student</option>
+      <option value="Lecturer" {% if user[3] == 'Lecturer' %}selected{% endif %}>Lecturer</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Update User</button>
+  <a href="{{ url_for('manage_users') }}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+user_id,username,email,password,name,role,department,confirmed,confirmation_token,is_active
+42,,ronalkipro@gmail.com,scrypt:32768:8:1$v13UF9UvltyzIT7H$f63ba3a4357221d6c3296ff82a0906c526ef5ebe1f2463288ea48ba82f5074d03fd1c90565b7266a795b272166c6d6a0a1dbe3048c2fd4d2dce5ec0d8d69e16d,RONNIE,student,comp science,0,X9_9hgc073Ap61oHOIK4tg,1
+47,,ronalkipro2@gmail.com,scrypt:32768:8:1$TcTjpYyCVTK5m8Bw$57740c28d2ff38d016a96e54effaa45a1767b9fdb7f36882c49bad725f14ecc78053e08d775cade0b772dbf4cda981efa73217a6d856b2c5057dcf72f46a3414,costant regz,student,computing and informatics,0,caWFf7yW1VgRS6twm0NAtw,1
+48,constant ,ronalkipro18@gmail.com,$2b$12$K9pIjbMgYhzTCZjvXP3DFuuU.idF.4vIBD78.ZnZdmNkoQyHZXkAS,,,,0,,1
+49,,ronalkipro1@gmail.com,scrypt:32768:8:1$Iyhoge10Ruu7zeIh$cc924fa2eb274468cc9bce090dda0a086a015b41cb6d03be439c6c9042b66f328ddb6a50c5c68b03cd6c970f962f3dad1bc738bb697dee380fd609a5ad3c4341,Admin,admin,admin,0,2QsEYf4sMfgmBZmEMzazfQ,1
+50,,constant@gmail.com,,constant regz,Student,medicine,0,,1
+52,,ronalkipro3@gmail.com,scrypt:32768:8:1$wxxtA9yVCAbLRKMh$fba5e9bc0c6924d3cc67ef1408a379c0186466207fdf06b12c39d2710d8c3108c84dc240ec4963a0175d03341a39dedb78696c7877ba998bb21e5bc85b526faf,costant regz,student,comp science,0,sslwiqTvhfG3gp3XE5cczw,1
+53,,ronalkipro4@gmail.com,scrypt:32768:8:1$5UD8loP8XpvCFmiQ$cf3aaff4749e4076891eab75304e44a912390db798889f5e4e3aa6a49b67d1c99ae68fc00ac2b874ca49527032ba9b6874901b73544fb8a38c9c5dfe0b983cd0,costant regz ronnie,student,comp science,0,-SfjnN7LXwRbaykUVyZf8g,1

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/script.js') }}">
+    <title>MKU E-Books</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('index') }}"><i class="fas fa-book"></i> MKU E-Books</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto"> <!-- Align links to the left -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('student_books') }}"><i class="fas fa-book-reader"></i> Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('recommend') }}"><i class="fas fa-thumbs-up"></i> Recommend</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto"> <!-- Align Profile and Logout links to the right -->
+                
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="{{ url_for('user_notifications') }}" style="display: inline-block;">
+                        <i class="fas fa-bell" style="font-size: 1.5rem; position: relative;"></i>
+                        {% if unread_notifications_count > 0 %}
+                            <span class="badge rounded-pill bg-danger text-white position-absolute" 
+                                  style="font-size: 0.8rem; top: -8px; right: -8px;">
+                                {{ unread_notifications_count }}
+                            </span>
+                        {% endif %}
+                    </a>
+            </li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    {% if g.user %}
+                        <a class="nav-link" href="{{ url_for('profile') }}">
+                            <i class="fas fa-user"></i> {{ g.user[0] }}'s Profile  <!-- Display the name -->
+                        </a>
+                    {% else %}
+                        <a class="nav-link" href="{{ url_for('login') }}">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    {% endif %}
+                </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Sidebar: Only visible to logged-in students -->
+            {% if current_user.is_authenticated and current_user.role == "student" %}
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('contact') }}"><i class="fas fa-envelope"></i> Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('student_settings') }}"><i class="fas fa-cogs"></i> Settings</a>
+                            </li>
+                        </ul>
+                        
+                </div>
+            </nav>
+            {% endif %}
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-center">Welcome to MKU E-Books</h2>
+                        <p class="text-center">Explore our vast collection of e-books tailored for your academic needs!</p>
+                        <div class="text-center">
+                            <a href="{{ url_for('books') }}" class="btn btn-primary"><i class="fas fa-book"></i> Explore Books</a>
+                            <a href="{{ url_for('recommendations') }}" class="btn btn-secondary"><i class="fas fa-heart"></i> View Recommendations</a>
+                        </div>
+                    </div>
+                </div>
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start mt-5">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <h5 class="text-uppercase">About MKU E-Books</h5>
+                    <p>
+                        MKU E-Books is dedicated to providing students and lecturers with access to a wide range of academic resources. Explore, learn, and enhance your knowledge with our curated collection of e-books.
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="text-uppercase">Useful Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="{{ url_for('contact') }}"><i class="fas fa-envelope"></i> Contact</a></li>
+                        <li><a href="{{ url_for('faq') }}"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                        <li><a href="{{ url_for('terms') }}"><i class="fas fa-file-alt"></i> Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="text-uppercase">Follow Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.facebook.com/MKUUniversity" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="https://twitter.com/MKUUniversity" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="https://www.instagram.com/mkucampus" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="https://www.linkedin.com/school/mount-kenya-university" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="tel:+1234567890"><i class="fas fa-phone"></i> Call Us</a></li> <!-- Replace with your phone number -->
+                        <li><a href="https://wa.me/1234567890" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li> <!-- Replace with your WhatsApp number -->
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.1);">
+            <p>&copy; 2024 E-Resource and E-Book System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

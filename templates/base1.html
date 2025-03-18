@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard - MKU E-Books{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/script.js') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+        }
+        .navbar {
+            background: linear-gradient(45deg, #343a40, #495057);
+        }
+        .navbar a { color: white; transition: color 0.3s ease; }
+        .navbar a:hover { color: #f8d7da; }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding-top: 20px;
+            transition: width 0.3s ease;
+            overflow-y: auto;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        /* Modify Footer Position */
+        .footer {
+            background: linear-gradient(45deg, #343a40, #495057);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: relative;  /* Changed from 'fixed' to 'relative' */
+            width: 100%;
+            bottom: 0;
+        }
+        
+        /* Ensure content area has enough space */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: 100vh;  /* Ensures the content area takes up full height */
+            padding-bottom: 50px;  /* Space for footer */
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+            }
+            .content {
+                margin-left: 80px;
+            }
+                }
+                /* Custom rule to make the Administrator text white */
+        .sidebar .text-muted {
+            color: white !important; /* Override the default muted color */
+        }
+
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{{ url_for('home') }}">MKU E-Books</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('books') }}">Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('recommendations') }}">Recommendations</a></li>
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('report') }}">Report</a></li>
+                    
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_profile') }}"><i class="fas fa-user"></i> Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Register</a></li>
+                   
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="text-center mb-4">
+            <i class="fas fa-user-circle fa-5x text-light"></i>
+            <h6 class="mt-2">Admin</h6>
+            <small class="text-muted">Administrator</small>
+        </div>
+        <a href="{{ url_for('manage_users') }}"><i class="fas fa-users"></i> Manage Users</a>
+        <a href="{{ url_for('manage_books') }}"><i class="fas fa-book"></i> Manage Books</a>
+        <a href="{{ url_for('admin_bookings') }}"><i class="fas fa-calendar-check"></i> Manage Bookings</a>
+        <a href="{{ url_for('report') }}"><i class="fas fa-chart-line"></i> View Reports</a>
+        <a href="{{ url_for('recommendations') }}"><i class="fas fa-thumbs-up"></i> Recommendations</a>
+        <a href="{{ url_for('admin_notifications') }}"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="{{ url_for('settings') }}"><i class="fas fa-cogs"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 E-Resource and E-Book System. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

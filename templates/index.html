@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Top 50 Books{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="background-color: #121212; color: white; padding: 30px 15px; border-radius: 10px;">
+    <h1 class="text-center mb-4" style="font-size: 50px; font-weight: bold;">Top 50 Books</h1>
+    
+    <div class="row">
+        {% for i in range(book_name|length) %}
+            <div class="col-md-3 col-sm-6 col-xs-12 mb-4">
+                <div class="card" style="background-color: #1c1c1c; border: none; border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                    <img class="card-img-top" src="{{ image[i] }}" alt="Cover of {{ book_name[i] }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                    <div class="card-body" style="padding: 20px;">
+                        <h5 class="card-title text-white" style="font-size: 18px; font-weight: bold;">{{ book_name[i] }}</h5>
+                        <p class="card-text text-white" style="font-size: 14px;">{{ author[i] }}</p>
+                        <p class="card-text text-white" style="font-size: 14px;">Votes: {{ votes[i] or 'N/A' }}</p>
+                        <p class="card-text text-white" style="font-size: 14px;">Rating: {{ rating[i] or 'N/A' }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

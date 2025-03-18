@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Student Books</h2>
+    <p>Browse and read the available books. You can preview them here or download the PDFs.</p>
+
+    <a href="{{ url_for('browse_books') }}" class="btn btn-link">Browse More Books</a>
+    <form method="GET" action="{{ url_for('student_books') }}">
+        <input type="text" name="search" placeholder="Search for a book" value="{{ request.args.get('search', '') }}">
+        <button type="submit">Search</button>
+    </form>
+    
+    <div class="book-list">
+        {% for book in books %}
+            <div class="book-card">
+                <h5>{{ book[1] }}</h5>  <!-- Book title -->
+                <p>Authors: {{ book[2] }}</p>  <!-- Book author -->
+
+                <!-- Embed PDF Preview with JS -->
+                <div class="pdf-preview">
+                    <button class="btn btn-secondary" onclick="togglePdfPreview({{ book[0] }})">Preview PDF</button>
+                    <div id="pdf-{{ book[0] }}" class="pdf-container" style="display:none;">
+                        <iframe width="100%" height="500px" src="{{ url_for('view_pdf', book_id=book[0]) }}"></iframe>
+                    </div>
+                </div>
+
+                <!-- Download PDF Button -->
+                <button class="btn btn-primary" onclick="downloadPdf('{{ url_for('download_book', book_id=book[0]) }}')">Download PDF</button>
+
+                <div class="book-actions">
+                    {% if book[3] %}  <!-- Assuming book[3] is for 'is_booked' -->
+                        {% if book[4] == current_user.id %}  <!-- Assuming book[4] is user_id -->
+                            <button class="btn btn-warning" id="cancel-button-{{ book[0] }}" onclick="cancelBooking({{ book[0] }})">Cancel Booking</button>
+                        {% else %}
+                            <button class="btn btn-danger" disabled>Booked</button>
+                        {% endif %}
+                    {% else %}
+                        <button class="btn btn-success" id="book-button-{{ book[0] }}" onclick="bookBook({{ book[0] }})">Book this Book</button>
+                    {% endif %}
+                </div>
+
+                <div class="rating-section">
+                    <p>Average Rating: {{ book[6] }} / 5</p>  <!-- Assuming book[6] is average_rating -->
+
+                    <form action="{{ url_for('rate_book') }}" method="post" class="rating-form">
+                        <input type="hidden" name="book_id" value="{{ book[0] }}">
+                        <input type="hidden" name="rating" value="">  <!-- Hidden input to store rating value -->
+
+                        <label for="rating-{{ book[0] }}">Rate this book:</label>
+
+                        <div class="stars" id="stars-{{ book[0] }}">
+                            <!-- Star rating with clickable stars -->
+                            <span class="star" data-rating="1">&#9733;</span>
+                            <span class="star" data-rating="2">&#9733;</span>
+                            <span class="star" data-rating="3">&#9733;</span>
+                            <span class="star" data-rating="4">&#9733;</span>
+                            <span class="star" data-rating="5">&#9733;</span>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Submit Rating</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function togglePdfPreview(bookId) {
+            const container = document.getElementById(`pdf-${bookId}`);
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function downloadPdf(downloadUrl) {
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = true;
+            a.click();
+        }
+
+        function bookBook(bookId) {
+            fetch(`/book/${bookId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Successfully booked the book!');
+                    updateBookStatus(bookId, 'Booked');
+                } else {
+                    alert('Error booking the book. Please try again.');
+                }
+            })
+            .catch(error => alert('An error occurred while booking the book.'));
+        }
+
+        function cancelBooking(bookId) {
+            fetch(`/cancel-booking/${bookId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Booking successfully canceled!');
+                    updateBookStatus(bookId, 'Available');
+                } else {
+                    alert('Error canceling the booking. Please try again.');
+                }
+            })
+            .catch(error => alert('An error occurred while canceling the booking.'));
+        }
+
+        function updateBookStatus(bookId, status) {
+            const buttonElements = document.querySelectorAll(`#book-button-${bookId}, #cancel-button-${bookId}`);
+            buttonElements.forEach(button => {
+                if (status === 'Booked') {
+                    button.classList.add('btn-danger');
+                    button.classList.remove('btn-success');
+                    button.innerText = 'Booked';
+                    button.disabled = true;
+                    document.getElementById(`cancel-button-${bookId}`).style.display = 'inline';
+                } else {
+                    button.classList.add('btn-success');
+                    button.classList.remove('btn-danger');
+                    button.innerText = 'Book this Book';
+                    button.disabled = false;
+                    document.getElementById(`cancel-button-${bookId}`).style.display = 'none';
+                }
+            });
+        }
+
+        // JavaScript to handle click on stars
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                const bookId = this.closest('.rating-form').querySelector('input[name="book_id"]').value;
+                const rating = this.getAttribute('data-rating');
+                // Highlight the stars
+                document.querySelectorAll(`#stars-${bookId} .star`).forEach(s => {
+                    if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                        s.style.color = 'gold'; // Highlight the selected stars
+                    } else {
+                        s.style.color = ''; // Reset the unselected stars
+                    }
+                });
+                // Set the rating value to the form
+                this.closest('form').querySelector('input[name="rating"]').value = rating;
+            });
+        });
+    </script>
+{% endblock %}

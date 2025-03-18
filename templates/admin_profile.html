@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h2, h3 {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .section-title {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 12px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.25);
+        }
+
+        .btn-primary, .btn-danger {
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+
+        /* Card-style for sections */
+        .card-section {
+            background-color: #fafbfc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .row {
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin-top: 20px;
+            }
+
+            .btn-primary, .btn-danger {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>User Profile</h2>
+
+    <!-- User Information Section -->
+    <div class="row card-section">
+        <div class="col-md-12">
+            <h3>Personal Information</h3>
+            <p><strong>Name:</strong> {{ current_user.name }}</p>
+            <p><strong>Email:</strong> {{ current_user.email }}</p>
+            <p><strong>Department:</strong> {{ current_user.department }}</p>
+        </div>
+    </div>
+
+    <!-- Account Settings Section -->
+    <div class="section-title">Account Settings</div>
+    <form action="{{ url_for('update_profile') }}" method="POST" class="card-section">
+        <div class="form-group">
+            <label for="name">Update Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ current_user.name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Update Email:</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}" required>
+        </div>
+        <div class="form-group">
+            <label for="department">Update Department:</label>
+            <select class="form-control" id="department" name="department" required>
+                {% for dept in departments %}
+                    <option value="{{ dept }}" {% if dept == current_user.department %}selected{% endif %}>
+                        {{ dept }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+
+    <!-- Password Update -->
+    <div class="section-title mt-4">Change Password</div>
+    <form action="{{ url_for('update_password') }}" method="POST" class="card-section">
+        <div class="form-group">
+            <label for="current_password">Current Password:</label>
+            <input type="password" class="form-control" id="current_password" name="current_password" required>
+        </div>
+        <div class="form-group">
+            <label for="new_password">New Password:</label>
+            <input type="password" class="form-control" id="new_password" name="new_password" required>
+        </div>
+        <button type="submit" class="btn btn-danger">Change Password</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
