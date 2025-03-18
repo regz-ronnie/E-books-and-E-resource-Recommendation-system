@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - MKU E-Book Store{% endblock %}
+
+{% block content %}
+    <!-- About Us Section -->
+    <div class="container about-section">
+        <!-- About Header -->
+        <div class="about-header">
+            <h1>About Us</h1>
+            <p class="lead">Empowering education through technology and innovation.</p>
+        </div>
+
+        <!-- Company Overview -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3>Our Mission</h3>
+                <p>We aim to transform how education resources are accessed, providing an inclusive platform for learners and educators. Our commitment is to bridge the gap between affordability and quality educational materials.</p>
+            </div>
+            <div class="col-md-6">
+                <h3>Our Vision</h3>
+                <p>We foresee a world where every student, irrespective of background, has access to resources that empower their academic journey and fuel innovation for the next generation of global thinkers.</p>
+            </div>
+        </div>
+
+        <!-- Our Team -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h3 class="text-center my-4">Meet Our Team</h3>
+                <div class="row">
+                    <div class="col-md-4 team-member text-center">
+                        <img src="{{ url_for('static', filename='images/download.jpeg') }}" alt="Team Member 1">
+                        <h5>John Mark</h5>
+                        <p>Founder & CEO</p>
+                        <p>With over a decade in educational technology, John steers MKU E-Book Store with a vision to revolutionize learning platforms for the betterment of global education.</p>
+                    </div>
+                    <div class="col-md-4 team-member text-center">
+                        <img src="{{ url_for('static', filename='images/download3.jpeg') }}" alt="Team Member 2">
+                        <h5>Jane Smith</h5>
+                        <p>Chief Technology Officer</p>
+                        <p>Jane ensures the platform evolves with the latest tech, balancing user-friendly design with cutting-edge functionality.</p>
+                    </div>
+                    <div class="col-md-4 team-member text-center">
+                        <img src="{{ url_for('static', filename='images/download5.jpeg') }}" alt="Team Member 3">
+                        <h5>Michael Brown</h5>
+                        <p>Operations Manager</p>
+                        <p>Michael manages our daily operations with a focus on efficiency, ensuring exceptional service to all users of the platform.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Us Section -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h3 class="text-center my-4">Contact Us</h3>
+                <p class="text-center">Have any queries or feedback? We'd love to hear from you!</p>
+            </div>
+            <div class="col-md-6 mx-auto contact-form">
+                <form action="/send_message" method="POST">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Type your message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add the CSS for the team images -->
+    <style>
+        .team-member img {
+            border-radius: 50%; /* Makes the image circular */
+            width: 180px;
+            height: 180px;
+            object-fit: cover; /* Ensures the image doesn't stretch */
+            border: 4px solid #007BFF; /* Optional border around the image */
+        }
+    </style>
+
+{% endblock %}

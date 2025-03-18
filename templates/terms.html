@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Terms and Conditions{% endblock %}
+
+{% block header %}Terms and Conditions{% endblock %}
+
+{% block content %}
+    <!-- Terms and Conditions -->
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Introduction</h2>
+        <p>Welcome to MKU E-Books and E-Resource Recommendation System. By accessing or using our platform, you agree to the following terms and conditions. Please read them carefully before proceeding.</p>
+    </section>
+
+    <!-- Terms Sections -->
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Account Registration and Use</h2>
+        <p>To access the full features of our platform, you must create an account. By registering, you agree to the following:</p>
+        <ul>
+            <li>You will provide accurate and up-to-date information during registration.</li>
+            <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
+            <li>You will not share your account details with others or use another user’s account without permission.</li>
+            <li>MKU reserves the right to suspend or terminate accounts that violate these terms.</li>
+        </ul>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Use of Platform</h2>
+        <p>The MKU E-Books and E-Resource Recommendation System is designed to provide students and faculty with access to educational materials. By using the platform, you agree to the following:</p>
+        <ul>
+            <li>Use the platform for educational and lawful purposes only.</li>
+            <li>Respect intellectual property rights of the content provided, including books, articles, and other materials.</li>
+            <li>Not to distribute, reproduce, or misuse any resources provided without proper authorization.</li>
+        </ul>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Limitation of Liability</h2>
+        <p>We strive to provide accurate and reliable resources. However, MKU does not guarantee uninterrupted access or error-free services. MKU is not liable for any loss or damage resulting from using the platform.</p>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Acceptance of Terms</h2>
+        <p>By using our platform, you acknowledge that you have read, understood, and agree to these Terms and Conditions.</p>
+        <!-- Accept Terms Form -->
+        <form action="/accept_terms" method="POST" class="mt-4">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="acceptTerms" name="acceptTerms" required>
+                <label class="form-check-label" for="acceptTerms">
+                    I have read and agree to the <strong>Terms and Conditions</strong>.
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Accept Terms and Continue</button>
+        </form>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Contact Us</h2>
+        <p>If you have any questions about these Terms and Conditions, please <a href="/contact">contact us</a>.</p>
+    </section>
+{% endblock %}

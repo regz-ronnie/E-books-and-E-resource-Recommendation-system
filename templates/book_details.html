@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">{{ book['title'] }}</h1>
+    <p class="text-center">by {{ book['authors'] }}</p>
+
+    <!-- Book Image -->
+    <div class="text-center">
+        <img src="{{ book['image_url'] if book['image_url'] else 'https://via.placeholder.com/300x300?text=No+Image+Available' }}" alt="Book Cover" class="img-fluid" style="max-height: 300px;">
+    </div>
+
+    <div class="mt-4">
+        <h5>Description:</h5>
+        <p>{{ book['description'] if book['description'] else 'No description available' }}</p>
+    </div>
+
+    <!-- Read or Download Link -->
+    <div class="text-center mt-4">
+        {% if book['book_url'] %}
+            <a href="{{ book['book_url'] }}" class="btn btn-success" target="_blank">Read or Download</a>
+        {% else %}
+            <p class="text-muted">No link available to read or download this book.</p>
+        {% endif %}
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ url_for('browse_books') }}" class="btn btn-primary">Back to Browse Books</a>
+    </div>
+</div>
+{% endblock %}

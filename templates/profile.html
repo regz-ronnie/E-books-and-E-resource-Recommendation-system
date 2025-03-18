@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>User Profile</h2>
+
+    <!-- User Information Section -->
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Personal Information</h3>
+            <p><strong>Name:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Department:</strong> {{ user.department }}</p>
+        </div>
+    </div>
+
+    <!-- Account Settings Section -->
+    <div class="mt-5">
+        <h3>Account Settings</h3>
+        <form action="{{ url_for('update_profile') }}" method="POST">
+            <div class="form-group">
+                <label for="name">Update Name:</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Update Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Update Department:</label>
+                <select class="form-control" id="department" name="department" required>
+                    {% for dept in departments %}
+                        <option value="{{ dept }}" {% if dept == user.department %}selected{% endif %}>
+                            {{ dept }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </form>
+
+        <!-- Password Update -->
+        <form action="{{ url_for('update_password') }}" method="POST" class="mt-3">
+            <div class="form-group">
+                <label for="current_password">Current Password:</label>
+                <input type="password" class="form-control" id="current_password" name="current_password" required>
+            </div>
+            <div class="form-group">
+                <label for="new_password">New Password:</label>
+                <input type="password" class="form-control" id="new_password" name="new_password" required>
+            </div>
+            <button type="submit" class="btn btn-danger">Change Password</button>
+        </form>
+    </div>
+
+    <!-- Favorite Books Section (Only visible for non-admin users) -->
+    {% if current_user.role != 'Admin' %}
+    <div class="mt-5">
+        <h3>Your Favorite Books</h3>
+        {% if favorite_books %}
+            <ul class="list-group">
+                {% for book in favorite_books %}
+                    <li class="list-group-item">
+                        <strong>{{ book.title }}</strong> by {{ book.authors }}
+                        <small class="text-muted">Added on {{ book.created_at }}</small><br>
+                        <img src="{{ book.image_url }}" alt="{{ book.title }}" width="50"><br>
+                        <p>{{ book.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No favorite books yet.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Reading History Section (Only visible for non-admin users) -->
+    {% if current_user.role != 'Admin' %}
+    <div class="mt-5">
+        <h3>Your Reading History</h3>
+        {% if reading_history %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Authors</th>
+                        <th>Date Accessed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for history in reading_history %}
+                        <tr>
+                            <td>{{ history.title }}</td>
+                            <td>{{ history.authors }}</td>
+                            <td>{{ history.date_accessed }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No reading history available.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

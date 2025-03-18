@@ -1,0 +1,208 @@
+{% extends "base1.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Drawing Analytics Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Expert Drawing Analytics Dashboard</h1>
+        <hr>
+        <!-- Export Buttons -->
+        <div class="d-flex justify-content-end mb-4">
+            <button id="export-excel" class="btn btn-success me-2">Export as Excel</button>
+            <button id="export-csv" class="btn btn-primary">Export as CSV</button>
+        </div>
+
+        <!-- Key Metrics Section -->
+        <div class="row text-center mt-4">
+            <div class="col-md-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h2 id="total-recommendations">{{ popular_books|length }}</h2>
+                        <p>Total Recommendations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h2 id="unique-categories">{{ most_rated_books|length }}</h2>
+                        <p>Unique Categories</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h2 id="expert-count">{{ most_favorited_books|length }}</h2>
+                        <p>Experts Contributing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Table -->
+        <div class="mt-5">
+            <h3 class="text-center">Detailed Recommendations</h3>
+            <table class="table table-bordered" id="recommendations-table">
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Average Rating</th>
+                        <th>Rating Count</th>
+                        <th>Favorite Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in popular_books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.avg_rating }}</td>
+                        <td>{{ book.rating_count }}</td>
+                        <td>{{ book.favorite_count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Most Popular Books -->
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <h3 class="text-center">Most Popular Books (Based on Ratings)</h3>
+                <ul id="popular-books" class="list-group">
+                    {% for book in popular_books %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>{{ book.title }}</strong>
+                        <span class="badge badge-primary">Avg Rating: {{ book.avg_rating }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Most Rated Books -->
+            <div class="col-md-4">
+                <h3 class="text-center">Most Rated Books (Based on Number of Ratings)</h3>
+                <ul id="most-rated-books" class="list-group">
+                    {% for book in most_rated_books %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>{{ book.title }}</strong>
+                        <span class="badge badge-success">Ratings: {{ book.rating_count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Most Favorited Books -->
+            <div class="col-md-4">
+                <h3 class="text-center">Most Favorited Books</h3>
+                <ul id="most-favorited-books" class="list-group">
+                    {% for book in most_favorited_books %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>{{ book.title }}</strong>
+                        <span class="badge badge-warning">Favorites: {{ book.favorite_count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Expert Recommendations -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h3 class="text-center">Expert Recommendations</h3>
+                <ul id="expert-recommendations" class="list-group">
+                    <li class="list-group-item">
+                        <strong>Expert 1:</strong> "Book Title 7" - A highly recommended read for advanced learners.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Expert 2:</strong> "Book Title 8" - An excellent resource for beginners in the subject.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Expert 3:</strong> "Book Title 9" - A must-read for those interested in research methods.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
+    <script>
+  // Export to PDF
+document.getElementById("export-pdf").addEventListener("click", function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Add title text
+    doc.setFontSize(18);
+    doc.text("Expert Drawing Analytics Dashboard", 20, 20);
+
+    // Add table data (using the Table rows)
+    const table = document.querySelector("table");
+    const rows = [];
+    const headers = Array.from(table.querySelectorAll("thead th")).map(th => th.innerText);
+    rows.push(headers); // Add header row
+    
+    const bodyRows = table.querySelectorAll("tbody tr");
+    bodyRows.forEach(row => {
+        const cells = Array.from(row.querySelectorAll("td")).map(td => td.innerText);
+        rows.push(cells);
+    });
+
+    // Use autoTable to add the table
+    doc.autoTable({
+        head: [headers],
+        body: rows.slice(1), // Exclude the header from body
+        startY: 30, // Position below the title
+    });
+
+    // Save the PDF
+    doc.save("analytics_dashboard.pdf");
+});
+
+        // Export to Excel
+        document.getElementById("export-excel").addEventListener("click", function() {
+            const ws = XLSX.utils.table_to_sheet(document.querySelector("#recommendations-table"));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Recommendations");
+            XLSX.writeFile(wb, "analytics_dashboard.xlsx");
+        });
+
+        // Export to CSV
+        document.getElementById("export-csv").addEventListener("click", function() {
+            const rows = Array.from(document.querySelectorAll("#recommendations-table tbody tr"));
+            const csv = rows.map(row => {
+                return Array.from(row.children)
+                            .map(cell => cell.textContent)
+                            .join(",");
+            }).join("\n");
+            const csvContent = "data:text/csv;charset=utf-8," + csv;
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "analytics_dashboard.csv");
+            document.body.appendChild(link);
+            link.click();
+        });
+    </script>
+</body>
+
+</html>
+{% endblock %}

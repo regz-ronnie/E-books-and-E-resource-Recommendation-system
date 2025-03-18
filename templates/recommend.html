@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Recommender System{% endblock %}
+
+{% block content %}
+<div class="container" style="background-color: #121212; color: white; padding: 30px 15px; border-radius: 10px; margin-top: 30px;">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 style="font-size: 50px; font-weight: bold; margin-bottom: 20px;">Book Recommendations</h1>
+            <form action="/recommend_books" method="post" style="margin-bottom: 30px;">
+                <input name="user_input" type="text" class="form-control" placeholder="Enter keywords or book title" style="width: 60%; margin: 0 auto; padding: 10px; font-size: 16px;">
+                <br>
+                <input type="submit" class="btn btn-lg btn-warning" value="Get Recommendations" style="margin-top: 10px; font-size: 18px; padding: 12px 40px;">
+            </form>
+        </div>
+
+        {% if data %}
+            <div class="col-md-12">
+                <div class="row">
+                    {% for i in data %}
+                        <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top: 20px;">
+                            <div class="card" style="background-color: #1c1c1c; border: none; border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                                <img class="card-img-top" src="{{i[2]}}" alt="Cover of {{i[0]}}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                                <div class="card-body" style="padding: 20px;">
+                                    <h5 class="card-title text-white" style="font-size: 18px; font-weight: bold;">{{i[0]}}</h5>
+                                    <p class="card-text text-white" style="font-size: 14px;">{{i[1]}}</p>
+                                    <div class="d-flex justify-content-between">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="col-md-12 text-center">
+                <p class="text-white" style="font-size: 18px;">No recommendations available. Please try again.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
