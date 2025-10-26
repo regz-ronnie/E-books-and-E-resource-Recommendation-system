@@ -71,7 +71,7 @@ def send_confirmation_email(recipient_email, token):
     port = 587  # TLS port
 
     # Hardcoded Gmail credentials (Replace with your own Gmail account details)
-    sender_email = 'ronalkipro18@gmail.com'  # Replace with your Gmail email address
+    sender_email = 'ronalkipro@gmail.com'  # Replace with your Gmail email address
     sender_password = 'dwdb hprw nhbe qhhf'  # Replace with your Gmail app password or regular password
 
     if not sender_email or not sender_password:
@@ -101,7 +101,7 @@ def send_confirmation_email(recipient_email, token):
 
 # Example usage
 if __name__ == "__main__":
-    recipient_email = 'ronalkipro18@gmail.com'  # Replace with the recipient's email address
+    recipient_email = 'ronalkipro@gmail.com'  # Replace with the recipient's email address
     token = 'sample_token_123'  # Replace with the actual token
     conf_email = send_confirmation_email(recipient_email, token)
     print("Confirmation email status:", conf_email)
@@ -2077,4 +2077,5 @@ def statistics():
         return f"An error occurred: {str(e)}"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='127.0.0.1', port=5000)
+    print("✅ Open your browser and visit: http://127.0.0.1:5000/")

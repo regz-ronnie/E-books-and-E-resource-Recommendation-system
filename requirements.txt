@@ -1,2 +1,12 @@
 flask
 gunicorn
+flask-login
+flask_sqlalchemy
+mysqlclient
+mysql-connector-python
+requests
+urllib3
+fpdf2
+pandas
+numpy
+scikit-learn
